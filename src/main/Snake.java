@@ -9,14 +9,14 @@ public class Snake extends JPanel{
     int row;
     int column;
     KeyHandler kH = new KeyHandler();
-    private ArrayList<Point> points;
+    private ArrayList<Point> points = new ArrayList<Point>();
 
     public Snake(int row, int column) {
         this.row = row;
         this.column = column;
         this.addKeyListener(kH);
         this.setFocusable(true);
-        points = new ArrayList<Point>();
+        points.add(new Point(10, 10));
     }
 
     public void drawSnake(Graphics g) {
@@ -24,13 +24,12 @@ public class Snake extends JPanel{
 //        Point point = new Point(x, y);
 //        points.add(point);
         Graphics2D g2d = (Graphics2D) g;
+
         for(Point p : points) {
-            System.out.println(p.getX() + ", " + p.getY());
+            g2d.fillRect(tileSize * (int) p.getX(), tileSize * (int) p.getY(), tileSize, tileSize);
         }
+
         g2d.setColor(Color.green);
-
-        g2d.fillRect(tileSize * 10, tileSize * 10, tileSize, tileSize);
-
         g2d.dispose();
     }
 
