@@ -5,13 +5,15 @@ import java.awt.*;
 import java.security.Key;
 
 public class GamePanel extends JPanel implements Runnable{
-    final int tileSize = 32;
-    final int columns = 20;
-    final int rows = 20;
-    final int screenX = tileSize * columns;
-    final int screenY = tileSize * rows;
-    KeyHandler kH = new KeyHandler();
-    Thread gameThread;
+    private final int tileSize = 32;
+    private final int columns = 20;
+    private final int rows = 20;
+    private final int screenX = tileSize * columns;
+    private final int screenY = tileSize * rows;
+    private KeyHandler kH = new KeyHandler();
+    private Thread gameThread;
+    private Snake snake = new Snake();
+    int FPS = 60;
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenX, screenY));
         this.setBackground(Color.black);
@@ -27,24 +29,26 @@ public class GamePanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
+        double drawInterval = 1000000000 / FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
         while(gameThread != null) {
 
+            repaint();
+
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                if(remainingTime < 0) {
+                    remainingTime = 0;
+                }
+                Thread.sleep((long) remainingTime);
+                nextDrawTime += drawInterval;
+
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void update() {
-        update();
-        repaint();
-    }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setColor(Color.green);
-
-        g2d.fillRect(tileSize * 10, tileSize * 10, tileSize, tileSize);
-
-        g2d.dispose();
-    }
 }
