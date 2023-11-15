@@ -6,8 +6,9 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Snake extends JPanel{
-    final int tileSize = 32;
-    KeyHandler kH = new KeyHandler();
+    private final int tileSize = 32;
+    private KeyHandler kH = new KeyHandler();
+    private Thread snakeThread;
     private final ArrayList<Point> points = new ArrayList<Point>();
 
     public Snake() {
@@ -30,20 +31,22 @@ public class Snake extends JPanel{
         g2d.dispose();
     }
     public void update() {
-        points.remove(0);
-        System.out.println("aegvfguiaw");
+//        points.remove(0);
+//        System.out.println(kH.upPressed);
         if(kH.upPressed) {
             System.out.println("up");
             points.add(new Point((int) points.get(points.size() - 1).getX(), (int) points.get(points.size() - 1).getY() - 1));
         }
         if(kH.downPressed) {
+            System.out.println("down");
             points.add(new Point((int) points.get(points.size() - 1).getX(), (int) points.get(points.size() - 1).getY() + 1));
         }
         if(kH.leftPressed) {
+            System.out.println("left");
             points.add(new Point((int) points.get(points.size() - 1).getX() - 1, (int) points.get(points.size() - 1).getY()));
         }
         if(kH.rightPressed) {
-            System.out.println("ebgouisebrg");
+            System.out.println("right");
             points.add(new Point((int) points.get(points.size() - 1).getX() + 1, (int) points.get(points.size() - 1).getY()));
         }
 //        if(points.get(points.size() - 1).getX() < 0 || points.get(points.size() - 1).getX() > 20 ||

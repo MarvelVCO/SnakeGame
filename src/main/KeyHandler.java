@@ -17,32 +17,34 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_W) {
             upPressed = true;
-            downPressed = false;
-            leftPressed = false;
-            rightPressed = false;
         }
         if(code == KeyEvent.VK_S) {
             downPressed = true;
-            upPressed = false;
-            leftPressed = false;
-            rightPressed = false;
         }
         if(code == KeyEvent.VK_A) {
             leftPressed = true;
-            downPressed = false;
-            upPressed = false;
-            rightPressed = false;
         }
         if(code == KeyEvent.VK_D) {
             rightPressed = true;
-            leftPressed = false;
-            downPressed = false;
-            upPressed = false;
         }
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode();
+
+        if(code == KeyEvent.VK_W) {
+            upPressed = false;
+        }
+        if(code == KeyEvent.VK_S) {
+            downPressed = false;
+        }
+        if(code == KeyEvent.VK_A) {
+            leftPressed = false;
+        }
+        if(code == KeyEvent.VK_D) {
+            rightPressed = false;
+        }
     }
 }
