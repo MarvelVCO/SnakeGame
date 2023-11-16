@@ -5,10 +5,11 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public String lastKeyPressed;
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        lastKeyPressed = "d";
     }
 
     @Override
@@ -17,15 +18,19 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_W) {
             upPressed = true;
+            lastKeyPressed = "w";
         }
         if(code == KeyEvent.VK_S) {
             downPressed = true;
+            lastKeyPressed = "s";
         }
         if(code == KeyEvent.VK_A) {
             leftPressed = true;
+            lastKeyPressed = "a";
         }
         if(code == KeyEvent.VK_D) {
             rightPressed = true;
+            lastKeyPressed = "d";
         }
 
     }
