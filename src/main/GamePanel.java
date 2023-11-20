@@ -2,7 +2,6 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.security.Key;
 
 public class GamePanel extends JPanel implements Runnable{
     private final int tileSize = 32;
@@ -44,8 +43,9 @@ public class GamePanel extends JPanel implements Runnable{
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
             if(inMenu) {
-                if(kH.keyPressed) {
+                if(kH.anyKeyPressed) {
                     inMenu = false;
+                    snake = new Snake();
                 }
             }
             else {
@@ -67,11 +67,13 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
             if(delta >= 1) {
-                fruitEaten = fruit.update(snake.points.get(snake.points.size() - 1));
-                System.out.println(inMenu + "  " + kH.keyPressed);
-                if(snake.update(lastKeyPressed, fruitEaten)) {
-                    snake = new Snake();
+                fruitEaten = fruit.update(snake.points);
+                if(snake.ripSnake()) {
+                    kH.anyKeyPressed = false;
                     inMenu = true;
+                }
+                else {
+                    snake.update(lastKeyPressed, fruitEaten);
                 }
 
                 repaint();
@@ -98,6 +100,10 @@ public class GamePanel extends JPanel implements Runnable{
             for (Point p : snake.points) {
                 snakeGraphics.fillRect(tileSize * (int) p.getX(), tileSize * (int) p.getY(), tileSize, tileSize);
             }
+            Font font = new Font("Verdana", Font.BOLD, 20);
+            g.setFont(font);
+            g.setColor(Color.white);
+            g.drawString("" + (snake.points.size() - 3), 600, 40);
 
 
             snakeGraphics.dispose();
