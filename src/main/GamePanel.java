@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
     private final int tileSize = 32;
@@ -9,9 +10,9 @@ public class GamePanel extends JPanel implements Runnable{
     private String lastKeyPressed;
     private Thread gameThread;
     private Snake snake = new Snake();
+    private final ArrayList<Color> colors = new ArrayList<Color>();
     private final Fruit fruit = new Fruit();
     private boolean inMenu;
-    private boolean fruitEaten;
     int FPS = 10;
     public GamePanel() {
         int rows = 20;
@@ -25,6 +26,14 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(kH);
         this.setFocusable(true);
         lastKeyPressed = "d";
+        colors.add(new Color(22, 200, 58));
+        colors.add(new Color(13, 153, 168));
+        colors.add(new Color(41, 13, 200));
+        colors.add(new Color(150, 13, 168));
+        colors.add(new Color(168, 13, 85));
+        colors.add(new Color(200, 21, 13));
+        colors.add(new Color(243, 255, 20));
+
     }
 
     public void startGameThread() {
@@ -67,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
             if(delta >= 1) {
-                fruitEaten = fruit.update(snake.points);
+                boolean fruitEaten = fruit.update(snake.points);
                 if(snake.ripSnake()) {
                     kH.anyKeyPressed = false;
                     inMenu = true;
@@ -91,16 +100,26 @@ public class GamePanel extends JPanel implements Runnable{
             g.drawString("WASD to move, click any key to start", 75, 75);
         }
         else {
-            Graphics2D fruitGraphics = (Graphics2D) g;
-            fruitGraphics.setColor(Color.red);
-            fruitGraphics.fillRect(tileSize * (int) fruit.point.getX(), tileSize * (int) fruit.point.getY(), tileSize, tileSize);
-
             Graphics2D snakeGraphics = (Graphics2D) g;
-            snakeGraphics.setColor(Color.green);
-            for (Point p : snake.points) {
-                snakeGraphics.fillRect(tileSize * (int) p.getX(), tileSize * (int) p.getY(), tileSize, tileSize);
+            int currentColor = 0;
+            snakeGraphics.setColor(colors.get(currentColor));
+            for(int i = 0; i < snake.points.size(); i++) {
+                if(currentColor >= colors.size() - 1) {
+                    currentColor = 0;
+                }
+                else {
+                    currentColor++;
+                }
+                snakeGraphics.setColor(colors.get(currentColor - 1 == -1 ? colors.size() - 1 : currentColor - 1));
+                snakeGraphics.fillRect(tileSize * (int) snake.points.get(i).getX(), tileSize * (int) snake.points.get(i).getY(), tileSize, tileSize);
+
             }
+
+            Graphics2D fruitGraphics = (Graphics2D) g;
+            fruitGraphics.setColor(colors.get(currentColor));
+            fruitGraphics.fillRect(tileSize * (int) fruit.point.getX(), tileSize * (int) fruit.point.getY(), tileSize, tileSize);
             Font font = new Font("Verdana", Font.BOLD, 20);
+
             g.setFont(font);
             g.setColor(Color.white);
             g.drawString("" + (snake.points.size() - 3), 600, 40);
