@@ -122,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             g.setFont(font);
             g.setColor(Color.white);
-            g.drawString("" + (snake.points.size() - 3), 600, 40);
+            g.drawString(String.valueOf(snake.points.size() - 3), 600, 40);
 
             snakeGraphics.dispose();
             fruitGraphics.dispose();

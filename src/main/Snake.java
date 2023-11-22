@@ -2,13 +2,10 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Snake extends JPanel{
-    private final int tileSize = 32;
-    private Thread snakeThread;
-    final ArrayList<Point> points = new ArrayList<Point>();
+    final ArrayList<Point> points = new ArrayList<>();
 
     public Snake() {
         points.add(new Point(8, 10));
