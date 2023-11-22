@@ -76,12 +76,12 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
             if(delta >= 1) {
-                boolean fruitEaten = fruit.update(snake.points);
+                boolean fruitEaten = fruit.update(snake.points, lastKeyPressed);
                 if(snake.ripSnake()) {
                     kH.anyKeyPressed = false;
                     inMenu = true;
                 }
-                else {
+                else if(!inMenu) {
                     snake.update(lastKeyPressed, fruitEaten);
                 }
 
@@ -123,7 +123,6 @@ public class GamePanel extends JPanel implements Runnable{
             g.setFont(font);
             g.setColor(Color.white);
             g.drawString("" + (snake.points.size() - 3), 600, 40);
-
 
             snakeGraphics.dispose();
             fruitGraphics.dispose();
