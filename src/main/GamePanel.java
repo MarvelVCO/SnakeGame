@@ -10,7 +10,7 @@ public class GamePanel extends JPanel implements Runnable{
     private String lastKeyPressed;
     private Thread gameThread;
     private Snake snake = new Snake();
-    private final ArrayList<Color> colors = new ArrayList<Color>();
+    private final ArrayList<Color> colors = new ArrayList<>();
     private final Fruit fruit = new Fruit();
     private boolean inMenu;
     int FPS = 10;
