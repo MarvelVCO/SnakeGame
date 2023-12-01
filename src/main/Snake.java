@@ -13,6 +13,7 @@ public class Snake extends JPanel{
         points.add(new Point(10, 10));
     }
 
+    // Adds points to the head of the snake to give illusion of the snake pushing the blocks around
     public void update(String lastKeyPressed, boolean fruitEaten) {
         if(!fruitEaten) {
             points.remove(0);
@@ -31,16 +32,19 @@ public class Snake extends JPanel{
         }
     }
 
+    // Checks if the snake's head is in itself or outside boundaries
     public boolean ripSnake() {
         if(points.get(points.size() - 1).getX() < 0 || points.get(points.size() - 1).getX() >= 20 ||
                 points.get(points.size() - 1).getY() < 0 || points.get(points.size() - 1).getY() >= 20) {
             return true;
         }
+
         for(int i = 0; i < points.size() - 2; i ++) {
             if(points.get(i).equals(points.get(points.size() - 1))) {
                 return true;
             }
         }
+
         return false;
     }
 }

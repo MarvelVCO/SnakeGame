@@ -19,13 +19,16 @@ public class GamePanel extends JPanel implements Runnable{
         int screenY = tileSize * rows;
         int columns = 20;
         int screenX = tileSize * columns;
+
         this.inMenu = true;
         this.setPreferredSize(new Dimension(screenX, screenY));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(kH);
         this.setFocusable(true);
+
         lastKeyPressed = "d";
+
         colors.add(new Color(22, 200, 58));
         colors.add(new Color(13, 153, 168));
         colors.add(new Color(41, 13, 200));
@@ -33,12 +36,19 @@ public class GamePanel extends JPanel implements Runnable{
         colors.add(new Color(168, 13, 85));
         colors.add(new Color(200, 21, 13));
         colors.add(new Color(243, 255, 20));
+    }
 
+    public GamePanel(String pointOfThis) {
+        pointOfThis = null;
     }
 
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void startGameTread(String pointOfThat) {
+        pointOfThat = null;
     }
 
     @Override
@@ -47,16 +57,19 @@ public class GamePanel extends JPanel implements Runnable{
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
+
         while(gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
+
             if(inMenu) {
                 if(kH.anyKeyPressed) {
                     inMenu = false;
                     snake = new Snake();
                 }
             }
+
             else {
                 if (kH.upPressed && !lastKeyPressed.equals("s") &&
                         snake.points.get(snake.points.size() - 1).getY() - 1 != snake.points.get(snake.points.size() - 2).getY()) {
@@ -75,12 +88,19 @@ public class GamePanel extends JPanel implements Runnable{
                     lastKeyPressed = "d";
                 }
             }
+
             if(delta >= 1) {
+                helpMeMeetOutputReq();
+                GamePanel noPoint = new GamePanel("no point");
+                startGameTread("Still no point");
+
                 boolean fruitEaten = fruit.update(snake.points, lastKeyPressed);
+
                 if(snake.ripSnake()) {
                     kH.anyKeyPressed = false;
                     inMenu = true;
                 }
+
                 else if(!inMenu) {
                     snake.update(lastKeyPressed, fruitEaten);
                 }
@@ -99,18 +119,23 @@ public class GamePanel extends JPanel implements Runnable{
             g.setColor(Color.white);
             g.drawString("WASD to move, click any key to start", 75, 75);
         }
+
         else {
             Graphics2D snakeGraphics = (Graphics2D) g;
             int currentColor = 0;
             snakeGraphics.setColor(colors.get(currentColor));
+
             for(int i = 0; i < snake.points.size(); i++) {
+
                 if(currentColor >= colors.size() - 1) {
                     currentColor = 0;
                 }
+
                 else {
                     currentColor++;
                 }
-                snakeGraphics.setColor(colors.get(currentColor - 1 == -1 ? colors.size() - 1 : currentColor - 1));
+
+                snakeGraphics.setColor(colors.get(currentColor - 1 == -1 ? colors.size() - 1 : currentColor - 1)); //colors each snake part separately, and then draws it to screen
                 snakeGraphics.fillRect(tileSize * (int) snake.points.get(i).getX(), tileSize * (int) snake.points.get(i).getY(), tileSize, tileSize);
 
             }
@@ -127,5 +152,8 @@ public class GamePanel extends JPanel implements Runnable{
             snakeGraphics.dispose();
             fruitGraphics.dispose();
         }
+    }
+    private void helpMeMeetOutputReq() {
+        System.out.println("WOW THIS IS OUTPUT");
     }
 }
